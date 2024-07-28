@@ -16,11 +16,13 @@ import com.tiennguyen.learnspringboot.myfirstwebapp.todo.Todo;
 
 import jakarta.validation.Valid;
 
-public class customerController {
-	private CustomerService customerService;
-	public customerController(CustomerService customerService) {
+
+@Controller
+public class customerControllerJpa {
+	private CustomerRepo customerRepo;
+	public customerControllerJpa(CustomerRepo customerRepo) {
 		super();
-		this.customerService=customerService;
+		this.customerRepo=customerRepo;
 	}
 	
 	@RequestMapping("say-hello")
@@ -30,7 +32,7 @@ public class customerController {
 	}
 	@RequestMapping("list-customer")
 	public String listCustomer(ModelMap model) {
-		List<Customer> listCus=customerService.showAllCustomer("hcm");
+		List<Customer> listCus=customerRepo.findByZone("hcm");
 		model.addAttribute("listCus",listCus);
 		return "listCustomer";
 	}
@@ -45,17 +47,18 @@ public class customerController {
 		if(result.hasErrors()) {
 			return "addCus";
 		}
-		customerService.addNewCus("hcm", cus.getName(), cus.getDob(), cus.getAddress());
+		cus.setZone("hcm");
+		customerRepo.save(cus);
 		return "redirect:/list-customer";
 	}
 	 @RequestMapping("delete-cus")
 	    public String deleteCus(@RequestParam int id) {
-	        customerService.deleteById(id);
+	        customerRepo.deleteById(id);
 	        return "redirect:/list-customer";
 	    }
 	 @RequestMapping(value="update-cus",method=RequestMethod.GET)
 		public String showUpdateCus(@RequestParam int id, ModelMap model) {
-			Customer cus=customerService.findById(id);
+			Customer cus=customerRepo.findById(id).get();
 			model.addAttribute("cus",cus);
 			return "addCus";
 		}
@@ -65,7 +68,7 @@ public class customerController {
 				return "addCus";
 			}
 			cus.setZone("hcm");
-			customerService.updateCus(cus);
+			customerRepo.save(cus);
 			return "redirect:/list-customer";
 		}
 

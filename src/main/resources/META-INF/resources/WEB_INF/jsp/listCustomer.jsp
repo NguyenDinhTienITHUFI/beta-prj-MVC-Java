@@ -28,8 +28,8 @@
                 <td>${customer.name}</td>
                 <td>${customer.dob}</td>
                 <td>${customer.address}</td>
-                <td><a href="update-todo?id=${customer.id }" class="btn btn-warning">UPDATE</a></td>
-                <td><a href="delete-todo?id=${customer.id }" class="btn btn-danger">DELETE</a></td>
+                <td><a href="update-cus?id=${customer.id }" class="btn btn-warning">UPDATE</a></td>
+                <td> <a href="delete-cus?id=${customer.id}" class="btn btn-danger">DELETE</a></td>
             </tr>
         </c:forEach>
     </tbody>

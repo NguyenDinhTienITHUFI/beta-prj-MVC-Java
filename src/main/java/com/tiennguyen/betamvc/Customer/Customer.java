@@ -3,7 +3,14 @@ package com.tiennguyen.betamvc.Customer;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Customer {
+	@Id
+	@GeneratedValue
 	private int id;
 	private String zone;
 	private String name;
